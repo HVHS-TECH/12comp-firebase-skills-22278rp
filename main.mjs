@@ -18,6 +18,10 @@ import { fb_initialise }
 import { fb_authenticate }
     from './fb_io.mjs';
     window.fb_authenticate   = fb_authenticate;
+import { fb_detectLoginChange }
+    from './fb_io.mjs';
+    window.fb_detectLoginChange = fb_detectLoginChange;
+
 
 
 /**************************************************************/

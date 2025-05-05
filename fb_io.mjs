@@ -21,12 +21,14 @@ import { getDatabase }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 /**************************************************************/
 // EXPORT FUNCTIONS
 // List all the functions called by code or html outside of this module
 /**************************************************************/
-export { fb_initialise, fb_authenticate }
+export { fb_initialise, fb_authenticate, fb_detectLoginChange }
 
 function fb_initialise() {
     console.log('%c fb_initialise(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -58,14 +60,40 @@ function fb_authenticate() {
 
     signInWithPopup(AUTH, PROVIDER).then((result) => {
         //✅ Code for a successful authentication goes here
+        console.log("Authenticated");
     })
 
         .catch((error) => {
-
             //❌ Code for an authentication error goes here
+            console.log("ERROR!!!!!!!!");
 
         });
     document.getElementById("p_fbAuthenticate").innerHTML = "Authentication success";
+}
+
+function fb_detectLoginChange() {
+    console.log('%c fb_detectLoginChange(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const AUTH = getAuth();
+
+    onAuthStateChanged(AUTH, (user) => {
+
+        if (user) {
+
+            //✅ Code for user logged in goes here
+            console.log("Logged in code");
+        } else {
+
+            //✅ Code for user logged out goes here
+            console.log("Logged out");
+
+        }
+
+    }, (error) => {
+
+        //❌ Code for an onAuthStateChanged error goes here
+
+    });
+    document.getElementById("p_fbdetectLoginChange").innerHTML = "Login change detected";
 }
 
 
