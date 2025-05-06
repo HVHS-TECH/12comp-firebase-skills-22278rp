@@ -5,7 +5,7 @@
 /**************************************************************/
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
-console.log('%c main.mjs', 
+console.log('%c main.mjs',
     'color: blue; background-color: white;');
 
 /**************************************************************/
@@ -14,13 +14,20 @@ console.log('%c main.mjs',
 // Import all the constants & functions required from fb_io module
 import { fb_initialise }
     from './fb_io.mjs';
-    window.fb_initialise   = fb_initialise;
+window.fb_initialise = fb_initialise;
 import { fb_authenticate }
     from './fb_io.mjs';
-    window.fb_authenticate   = fb_authenticate;
+window.fb_authenticate = fb_authenticate;
 import { fb_detectLoginChange }
     from './fb_io.mjs';
-    window.fb_detectLoginChange = fb_detectLoginChange;
+window.fb_detectLoginChange = fb_detectLoginChange;
+import { fb_logout }
+    from './fb_io.mjs';
+window.fb_logout = fb_logout;
+import { fb_WriteRec }
+    from './fb_io.mjs';
+window.fb_WriteRec = fb_WriteRec;
+
 
 
 
