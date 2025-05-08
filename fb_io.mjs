@@ -151,16 +151,18 @@ function fb_ReadRec() {
         if (fb_data != null) {
 
             //✅ Code for a successful read goes here
+            console.log("successful read");
 
         } else {
 
             //✅ Code for no record found goes here
-
+            console.log("no record found");
         }
 
     }).catch((error) => {
 
         //❌ Code for a read error goes here
+        console.log("fail read");
 
     });
     document.getElementById("p_fbReadRec").innerHTML = "record written";

@@ -27,6 +27,9 @@ window.fb_logout = fb_logout;
 import { fb_WriteRec }
     from './fb_io.mjs';
 window.fb_WriteRec = fb_WriteRec;
+import { fb_ReadRec }
+    from './fb_io.mjs';
+window.fb_ReadRec = fb_ReadRec;
 
 
 
