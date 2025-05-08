@@ -27,12 +27,14 @@ import { signOut }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { ref, set }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { get }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORT FUNCTIONS
 // List all the functions called by code or html outside of this module
 /**************************************************************/
-export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec }
+export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec }
 
 function fb_initialise() {
     console.log('%c fb_initialise(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -121,30 +123,48 @@ function fb_logout() {
 function fb_WriteRec() {
     console.log('%c fb_WriteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const ref = ref(DB, "/UserData");
+    const dbReference= ref(DB, "Test/Userdata");
 
-    set(ref,
-        {
-            apiKey: "AIzaSyAQ3Qc6Ej_4YvNXCAjqsfLoA8p75j3R7-8",
-            authDomain: "comp2025-ryan-parks.firebaseapp.com",
-            databaseURL: "https://comp2025-ryan-parks-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "comp2025-ryan-parks",
-            storageBucket: "comp2025-ryan-parks.firebasestorage.app",
-            messagingSenderId: "73072219046",
-            appId: "1:73072219046:web:7608445213a3fd3e973567",
-            measurementId: "G-R89L1J8Z4D"
-        }).then(() => {
+    set(dbReference, {Location: "pool", Name: "Jeff"}).then(() => {
 
-            //✅ Code for a successful write goes here
+        //✅ Code for a successful write goes here
+        console.log("success write");
 
-        }).catch((error) => {
+    }).catch((error) => {
 
-            //❌ Code for a write error goes here
+        //❌ Code for a write error goes here
+         console.log("fail write");
+         console.log(error);
 
-        });
+    });
     document.getElementById("p_fbWriteRec").innerHTML = "record written";
 }
 
+function fb_ReadRec() {
+    console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const dbReference= ref(what-DB, where-to-read-from);
+
+    get(dbReference).then((snapshot) => {
+
+        var fb_data = snapshot.val();
+
+        if (fb_data != null) {
+
+            //✅ Code for a successful read goes here
+
+        } else {
+
+            //✅ Code for no record found goes here
+
+        }
+
+    }).catch((error) => {
+
+        //❌ Code for a read error goes here
+
+    });
+    document.getElementById("p_fbReadRec").innerHTML = "record written";
+}
 /**************************************************************/
 // END OF CODE
 /**************************************************************/
