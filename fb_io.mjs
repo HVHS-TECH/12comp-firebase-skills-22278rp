@@ -29,12 +29,14 @@ import { ref, set }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 import { get }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { update }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORT FUNCTIONS
 // List all the functions called by code or html outside of this module
 /**************************************************************/
-export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec }
+export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec, fb_ReadAll, fb_UpdateRec }
 
 function fb_initialise() {
     console.log('%c fb_initialise(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -142,7 +144,8 @@ function fb_WriteRec() {
 
 function fb_ReadRec() {
     console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
-    const dbReference= ref(what-DB, where-to-read-from);
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata/Name");
 
     get(dbReference).then((snapshot) => {
 
@@ -152,20 +155,72 @@ function fb_ReadRec() {
 
             //✅ Code for a successful read goes here
             console.log("successful read");
-
+            console.log(fb_data);
         } else {
 
             //✅ Code for no record found goes here
             console.log("no record found");
+            console.log(fb_data);
         }
 
     }).catch((error) => {
 
         //❌ Code for a read error goes here
         console.log("fail read");
+        console.log(fb_data);
 
     });
-    document.getElementById("p_fbReadRec").innerHTML = "record written";
+    document.getElementById("p_fbReadRec").innerHTML = "record read";
+}
+
+function fb_ReadAll() {
+    console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata");
+
+    get(dbReference).then((snapshot) => {
+
+        var fb_data = snapshot.val();
+
+        if (fb_data != null) {
+
+            //✅ Code for a successful read all goes here
+            console.log("Successfully read all");
+            console.log(fb_data);
+        } else {
+
+            //✅ Code for no record found goes here
+            console.log("no record");
+            console.log(fb_data);
+
+        }
+
+    }).catch((error) => {
+
+        //❌ Code for a read all error goes here
+        console.log("error not read all");
+        console.log(fb_data);
+    });
+    document.getElementById("p_fbReadAll").innerHTML = "read all";
+}
+
+function fb_UpdateRec() {
+    console.log('%c fb_UpdateRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata");
+
+    update(dbReference, {Location: "Alabasta", Name: "Karoo"}).then(() => {
+
+        //✅ Code for a successful update goes here
+
+    }).catch((error) => {
+
+        //❌ Code for a update error goes here
+
+    });
+
+
+    document.getElementById("p_fbUpdateRec").innerHTML = "Record updated";
 }
 /**************************************************************/
 // END OF CODE
