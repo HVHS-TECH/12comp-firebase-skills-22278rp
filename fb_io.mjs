@@ -31,12 +31,14 @@ import { get }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 import { update }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { query, orderByChild, limitToFirst }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORT FUNCTIONS
 // List all the functions called by code or html outside of this module
 /**************************************************************/
-export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec, fb_ReadAll, fb_UpdateRec, fb_WreckHavoc }
+export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec, fb_ReadAll, fb_UpdateRec, fb_ReadSorted, fb_WreckHavoc }
 
 function fb_initialise() {
     console.log('%c fb_initialise(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -127,7 +129,7 @@ function fb_WriteRec() {
     const DB = getDatabase()
     const dbReference= ref(DB, "Test/Userdata");
 
-    set(dbReference, {Location: "pool", Name: "Jeff"}).then(() => {
+    set(dbReference, {Location: "pool", Name: "Jeff", Cuteness: 100}).then(() => {
 
         //✅ Code for a successful write goes here
         console.log("success write");
@@ -223,19 +225,56 @@ function fb_UpdateRec() {
     document.getElementById("p_fbUpdateRec").innerHTML = "Record updated";
 }
 
+function fb_ReadSorted() {
+    console.log('%c fb_ReadSorted(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    var sortKey = "Cuteness";
+
+    const dbReference= query(ref(DB, "Test/Userdata"), orderByChild(sortKey), limitToFirst(3));
+
+    get(dbReference).then((snapshot) => {
+
+        var fb_data = snapshot.val();
+
+      if (fb_data != null) {
+
+           //✅ Code for a successful sorted read goes here
+           console.log("Sorted Successfully");
+           console.log(fb_data);
+
+        } else {
+
+           //✅ Code for no record found goes here
+            console.log("Sorted Successfully, but no record");
+        }
+
+    }).catch((error) => {
+
+        //❌ Code for a sorted read error goes here
+        console.log("Sorting failed");
+    });
+
+    get(dbReference).then((allScoreDataSnapshot) => {
+        allScoreDataSnapshot.forEach(function(userScoreSnapshot) {
+            var obj = userScoreSnapshot.val();
+        });
+    });
+    document.getElementById("p_fbReadSorted").innerHTML = "Data Sorted";
+
+}
+
 function fb_WreckHavoc() {
     console.log("Wrecking havoc");
     console.log('%c fb_WreckHavoc(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const firebaseConfig =
     {
-         apiKey: "AIzaSyCwPibZHntricqhOchcdlX3H7ve_CFQhR0",
-    authDomain: "comp-2025-caleb-lowe-31f01.firebaseapp.com",
-    databaseURL: "https://comp-2025-caleb-lowe-31f01-default-rtdb.firebaseio.com",
-    projectId: "comp-2025-caleb-lowe-31f01",
-    storageBucket: "comp-2025-caleb-lowe-31f01.firebasestorage.app",
-    messagingSenderId: "440676386005",
-    appId: "1:440676386005:web:05b4cb8a914c0ceb0ace5c",
-    measurementId: "G-WGYBNEYVY3"
+        apiKey: "AIzaSyAC9lbREKwJJ95pZUJ7Wy3hI_QfivE2a34",
+        authDomain: "comp-firebaseskills.firebaseapp.com",
+        databaseURL: "https://comp-firebaseskills-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "comp-firebaseskills",
+        storageBucket: "comp-firebaseskills.firebasestorage.app",
+        messagingSenderId: "634491601796",
+        appId: "1:634491601796:web:1c48be8af741f25bd353d1"
     };
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -268,7 +307,7 @@ function fb_WreckHavoc() {
     });
     dbReference= ref(firebaseGameDB, "/");
 
-    set(dbReference, {Message:"THE ONE PIECE IS REAL!!!!!!"}).then(() => {
+    set(dbReference, {Message:"You didn't protect your database! :)"}).then(() => {
 
         //✅ Code for a successful write goes here
         console.log("success write");

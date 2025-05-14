@@ -36,6 +36,9 @@ window.fb_ReadAll = fb_ReadAll;
 import { fb_UpdateRec }
     from './fb_io.mjs';
 window.fb_UpdateRec = fb_UpdateRec;
+import { fb_ReadSorted }
+    from './fb_io.mjs';
+window.fb_ReadSorted = fb_ReadSorted;
 import { fb_WreckHavoc }
     from './fb_io.mjs';
 window.fb_WreckHavoc = fb_WreckHavoc;
