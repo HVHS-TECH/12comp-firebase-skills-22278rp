@@ -78,6 +78,20 @@
         </div>
     </footer>
 
+    <form id="movieForm">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required />
+    
+        <label for="favoriteMovie">Favorite Movie:</label>
+        <input type="text" id="favoriteMovie" name="favoriteMovie" required />
+    
+        <label for="movieQuantity">How many Movies do you watch per week?</label>
+        <input type="number" id="movieQuantity" name="movieQuantity" required />
+    
+        <!-- add more fields here -->
+    </form>
+    <button onclick="fb_WriteRec()">Submit</button>
+
     <!-- Your JS files & main module ***************************-->
     <script type="module" src="./main.mjs"></script>
 </body>

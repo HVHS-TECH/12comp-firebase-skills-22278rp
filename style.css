@@ -36,6 +36,19 @@ body {
   button:hover {
     background-color: #0056b3;
   }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
   
   /*-----------------------------------------------------------*
     Firebase status div styling

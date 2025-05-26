@@ -10,7 +10,10 @@ const COL_C = 'white';	    // These two const are part of the coloured
 const COL_B = '#CD7F32';	//  console.log for functions scheme
 console.log('%c fb_io.mjs',
     'color: blue; background-color: white;');
-
+/**************************************************************/
+//Variables
+var currentUser = null;
+var userId = null;
 /**************************************************************/
 // Import all external constants & functions required
 /**************************************************************/
@@ -71,6 +74,8 @@ function fb_authenticate() {
 
     signInWithPopup(AUTH, PROVIDER).then((result) => {
         //✅ Code for a successful authentication goes here
+        currentUser = result.user;
+        userId = currentUser.uid;
         console.log("Authenticated");
     })
 
@@ -125,21 +130,27 @@ function fb_logout() {
 }
 
 function fb_WriteRec() {
+     if (!currentUser) {
+        alert("You must be logged in to submit the form.");
+        return;
+    }
     console.log('%c fb_WriteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const dbReference= ref(DB, "Test/Userdata");
+    var name = document.getElementById("name").value;
+    var favoriteMovie = document.getElementById("favoriteMovie").value;
+    var movieQuantity = document.getElementById("movieQuantity").value;
 
-    set(dbReference, {Location: "pool", Name: "Jeff", Cuteness: 100}).then(() => {
-
-        //✅ Code for a successful write goes here
-        console.log("success write");
-
+    // Add additional fields here as needed
+    
+    const dbReference= ref(DB, 'Test/UID/' + userId);
+    set(dbReference, {
+        Name: name,
+        FavoriteMovie: favoriteMovie,
+        MovieQuantity: movieQuantity
+    }).then(() => {
+        console.log("Write successful!")
     }).catch((error) => {
-
-        //❌ Code for a write error goes here
-         console.log("fail write");
-         console.log(error);
-
+        console.log("fail Writing")
     });
     document.getElementById("p_fbWriteRec").innerHTML = "record written";
 }
@@ -147,7 +158,7 @@ function fb_WriteRec() {
 function fb_ReadRec() {
     console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const dbReference= ref(DB, "Test/Userdata/Name");
+    const dbReference= ref(DB, "Test/UID/Name");
 
     get(dbReference).then((snapshot) => {
 
@@ -176,9 +187,9 @@ function fb_ReadRec() {
 }
 
 function fb_ReadAll() {
-    console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+     console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const dbReference= ref(DB, "Test/Userdata");
+    const dbReference= ref(DB, "Test/UID/" + userId);
 
     get(dbReference).then((snapshot) => {
 
@@ -209,9 +220,9 @@ function fb_ReadAll() {
 function fb_UpdateRec() {
     console.log('%c fb_UpdateRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const dbReference= ref(DB, "Test/Userdata");
+    const dbReference= ref(DB, "Test/UID");
 
-    update(dbReference, {Location: "Alabasta", Name: "Karoo"}).then(() => {
+    update(dbReference, {Location: "Alabasta", Name: "Karoo", Cuteness: 50}).then(() => {
 
         //✅ Code for a successful update goes here
 
@@ -228,9 +239,21 @@ function fb_UpdateRec() {
 function fb_ReadSorted() {
     console.log('%c fb_ReadSorted(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    var sortKey = "Cuteness";
+    var sortKey = "movieQuantity";
 
-    const dbReference= query(ref(DB, "Test/Userdata"), orderByChild(sortKey), limitToFirst(3));
+    const dbReference= query(ref(DB, "Test/UID" + userId), orderByChild(sortKey), limitToFirst(3));
+
+     get(dbReference).then((snapshot) => 
+    {
+        // Do Stuff
+    });
+
+    get(dbReference).then((allScoreDataSnapshot) => {
+        allScoreDataSnapshot.forEach(function (userScoreSnapshot) {
+            var obj = userScoreSnapshot.val();
+            console.log(obj);
+        });
+    });
 
     get(dbReference).then((snapshot) => {
 
@@ -253,12 +276,6 @@ function fb_ReadSorted() {
         //❌ Code for a sorted read error goes here
         console.log("Sorting failed");
     });
-
-    get(dbReference).then((allScoreDataSnapshot) => {
-        allScoreDataSnapshot.forEach(function(userScoreSnapshot) {
-            var obj = userScoreSnapshot.val();
-        });
-    });
     document.getElementById("p_fbReadSorted").innerHTML = "Data Sorted";
 
 }
@@ -268,19 +285,20 @@ function fb_WreckHavoc() {
     console.log('%c fb_WreckHavoc(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const firebaseConfig =
     {
-        apiKey: "AIzaSyAC9lbREKwJJ95pZUJ7Wy3hI_QfivE2a34",
-        authDomain: "comp-firebaseskills.firebaseapp.com",
-        databaseURL: "https://comp-firebaseskills-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "comp-firebaseskills",
-        storageBucket: "comp-firebaseskills.firebasestorage.app",
-        messagingSenderId: "634491601796",
-        appId: "1:634491601796:web:1c48be8af741f25bd353d1"
+        apiKey: "AIzaSyCwPibZHntricqhOchcdlX3H7ve_CFQhR0",
+        authDomain: "comp-2025-caleb-lowe-31f01.firebaseapp.com",
+        databaseURL: "https://comp-2025-caleb-lowe-31f01-default-rtdb.firebaseio.com",
+        projectId: "comp-2025-caleb-lowe-31f01",
+        storageBucket: "comp-2025-caleb-lowe-31f01.firebasestorage.app",
+        messagingSenderId: "440676386005",
+        appId: "1:440676386005:web:05b4cb8a914c0ceb0ace5c",
+        measurementId: "G-WGYBNEYVY3"
     };
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const firebaseGameDB = getDatabase(app);
 
-    var dbReference= ref(firebaseGameDB, "Test/Userdata");
+    var dbReference= ref(firebaseGameDB, "Test/UID");
 
     get(dbReference).then((snapshot) => {
 
