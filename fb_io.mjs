@@ -241,7 +241,7 @@ function fb_ReadSorted() {
     const DB = getDatabase()
     var sortKey = "movieQuantity";
 
-    const dbReference= query(ref(DB, "Test/UID" + userId), orderByChild(sortKey), limitToFirst(3));
+    const dbReference= query(ref(DB, "Test/UID" ), orderByChild(sortKey), limitToFirst(2));
 
      get(dbReference).then((snapshot) => 
     {
