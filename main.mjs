@@ -42,6 +42,9 @@ window.fb_ReadSorted = fb_ReadSorted;
 import { fb_WreckHavoc }
     from './fb_io.mjs';
 window.fb_WreckHavoc = fb_WreckHavoc;
+import { fb_Listen }
+    from './fb_io.mjs';
+window.fb_Listen = fb_Listen;
 
 
 

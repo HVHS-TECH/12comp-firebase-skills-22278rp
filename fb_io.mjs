@@ -36,12 +36,16 @@ import { update }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 import { query, orderByChild, limitToFirst }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { onValue }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { remove }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORT FUNCTIONS
 // List all the functions called by code or html outside of this module
 /**************************************************************/
-export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec, fb_ReadAll, fb_UpdateRec, fb_ReadSorted, fb_WreckHavoc }
+export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_logout, fb_WriteRec, fb_ReadRec, fb_ReadAll, fb_UpdateRec, fb_ReadSorted, fb_WreckHavoc, fb_Listen, fb_DeleteRec }
 
 function fb_initialise() {
     console.log('%c fb_initialise(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -277,6 +281,49 @@ function fb_ReadSorted() {
         console.log("Sorting failed");
     });
     document.getElementById("p_fbReadSorted").innerHTML = "Data Sorted";
+
+}
+
+function fb_Listen() {
+    console.log('%c fb_Listen(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+
+    const dbReference = ref(DB, "Test/UID");
+
+    onValue(dbReference, (snapshot) => {
+
+        var fb_data = snapshot.val();
+
+        if (fb_data != null) {
+
+            //✅ Code for a successful read goes here
+
+        } else {
+
+            //✅ Code for no record found goes here
+
+        }
+
+    });
+    document.getElementById("p_fbListen").innerHTML = "Listened";
+
+}
+
+function fb_DeleteRec() {
+    console.log('%c fb_DeleteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+
+    const dbReference= ref(DB, "Test/UID/Cuteness");
+
+    remove(dbReference).then(() => {
+
+        //✅ Code for a successful delete goes here
+
+    }).catch((error) => {
+
+        //❌ Code for a delete error goes here
+
+    });
 
 }
 
