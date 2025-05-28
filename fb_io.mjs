@@ -133,7 +133,7 @@ function fb_logout() {
     document.getElementById("p_fblogout").innerHTML = "Logged out";
 }
 
-function fb_WriteRec() {
+/*function fb_WriteRec() {
      if (!currentUser) {
         alert("You must be logged in to submit the form.");
         return;
@@ -157,9 +157,60 @@ function fb_WriteRec() {
         console.log("fail Writing")
     });
     document.getElementById("p_fbWriteRec").innerHTML = "record written";
+}*/
+
+function fb_WriteRec() {
+    console.log('%c fb_WriteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata");
+
+    set(dbReference, {Location: "pool", Name: "Jeff", Cuteness: 100}).then(() => {
+
+        //✅ Code for a successful write goes here
+        console.log("success write");
+
+    }).catch((error) => {
+
+        //❌ Code for a write error goes here
+         console.log("fail write");
+         console.log(error);
+
+    });
+    document.getElementById("p_fbWriteRec").innerHTML = "record written";
 }
 
 function fb_ReadRec() {
+    console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata/Name");
+
+    get(dbReference).then((snapshot) => {
+
+        var fb_data = snapshot.val();
+
+        if (fb_data != null) {
+
+            //✅ Code for a successful read goes here
+            console.log("successful read");
+            console.log(fb_data);
+        } else {
+
+            //✅ Code for no record found goes here
+            console.log("no record found");
+            console.log(fb_data);
+        }
+
+    }).catch((error) => {
+
+        //❌ Code for a read error goes here
+        console.log("fail read");
+        console.log(fb_data);
+
+    });
+    document.getElementById("p_fbReadRec").innerHTML = "record read";
+}
+
+/*function fb_ReadRec() {
     console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
     const dbReference= ref(DB, "Test/UID/Name");
@@ -188,7 +239,7 @@ function fb_ReadRec() {
 
     });
     document.getElementById("p_fbReadRec").innerHTML = "record read";
-}
+}*/
 
 function fb_ReadAll() {
      console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -224,7 +275,7 @@ function fb_ReadAll() {
 function fb_UpdateRec() {
     console.log('%c fb_UpdateRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
-    const dbReference= ref(DB, "Test/UID");
+    const dbReference= ref(DB, "Test/Userdata");
 
     update(dbReference, {Location: "Alabasta", Name: "Karoo", Cuteness: 50}).then(() => {
 
@@ -288,7 +339,7 @@ function fb_Listen() {
     console.log('%c fb_Listen(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
 
-    const dbReference = ref(DB, "Test/UID");
+    const dbReference = ref(DB, "Test/Userdata/Cuteness");
 
     onValue(dbReference, (snapshot) => {
 
@@ -297,10 +348,12 @@ function fb_Listen() {
         if (fb_data != null) {
 
             //✅ Code for a successful read goes here
+            console.log("Data has been changed")
 
         } else {
 
             //✅ Code for no record found goes here
+            console.log("No record to be monitored")
 
         }
 
@@ -313,17 +366,20 @@ function fb_DeleteRec() {
     console.log('%c fb_DeleteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
 
-    const dbReference= ref(DB, "Test/UID/Cuteness");
+    const dbReference= ref(DB, "Test/Userdata/Name");
 
     remove(dbReference).then(() => {
 
         //✅ Code for a successful delete goes here
+        console.log("Record Deleted");
 
     }).catch((error) => {
 
         //❌ Code for a delete error goes here
+        console.log("ERROR: DeleteRec")
 
     });
+    document.getElementById("p_fbDeleteRec").innerHTML = "Record Deleted";
 
 }
 

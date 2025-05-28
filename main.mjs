@@ -45,6 +45,9 @@ window.fb_WreckHavoc = fb_WreckHavoc;
 import { fb_Listen }
     from './fb_io.mjs';
 window.fb_Listen = fb_Listen;
+import { fb_DeleteRec }
+    from './fb_io.mjs';
+window.fb_DeleteRec = fb_DeleteRec;
 
 
 
