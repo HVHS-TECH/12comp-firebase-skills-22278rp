@@ -210,6 +210,37 @@ function fb_ReadRec() {
     document.getElementById("p_fbReadRec").innerHTML = "record read";
 }
 
+function fb_ReadAll() {
+    console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+    const DB = getDatabase()
+    const dbReference= ref(DB, "Test/Userdata");
+
+    get(dbReference).then((snapshot) => {
+
+        var fb_data = snapshot.val();
+
+        if (fb_data != null) {
+
+            //✅ Code for a successful read all goes here
+            console.log("Successfully read all");
+            console.log(fb_data);
+        } else {
+
+            //✅ Code for no record found goes here
+            console.log("no record");
+            console.log(fb_data);
+
+        }
+
+    }).catch((error) => {
+
+        //❌ Code for a read all error goes here
+        console.log("error not read all");
+        console.log(fb_data);
+    });
+    document.getElementById("p_fbReadAll").innerHTML = "read all";
+}
+
 /*function fb_ReadRec() {
     console.log('%c fb_ReadRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
@@ -241,7 +272,7 @@ function fb_ReadRec() {
     document.getElementById("p_fbReadRec").innerHTML = "record read";
 }*/
 
-function fb_ReadAll() {
+/*function fb_ReadAll() {
      console.log('%c fb_ReadAll(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
     const dbReference= ref(DB, "Test/UID/" + userId);
@@ -270,7 +301,7 @@ function fb_ReadAll() {
         console.log(fb_data);
     });
     document.getElementById("p_fbReadAll").innerHTML = "read all";
-}
+}*/
 
 function fb_UpdateRec() {
     console.log('%c fb_UpdateRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -366,7 +397,7 @@ function fb_DeleteRec() {
     console.log('%c fb_DeleteRec(): ', 'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const DB = getDatabase()
 
-    const dbReference= ref(DB, "Test/Userdata/Name");
+    const dbReference= ref(DB, "Test/Userdata");
 
     remove(dbReference).then(() => {
 
